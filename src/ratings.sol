@@ -21,10 +21,11 @@ contract Rating {
     }
 
     uint48 constant MAXCOUNT = 2 ** 42 - 1;
-    uint16 constant MULTIPLIER = 1000;
+    uint16 public constant MULTIPLIER = 1000;
 
-    mapping(address => ratingData) s_data;
-    uint96 s_totalRatings;
+    mapping(address => ratingData) private s_data;
+    uint96 private s_totalRatings;
+    string[] private s_comment;
 
     function rateAddress(address _address, uint8 rating) external payable {
         require(rating < 6);
@@ -172,4 +173,15 @@ contract Rating {
             s_data[_address].timeout[msg.sender]);
     }
 */
+    function addComment(string memory _comment) external {
+        s_comment.push(_comment);
+    }
+
+    function getNumberOfComments() external view returns (uint256) {
+        return s_comment.length;
+    }
+
+    function getComments() external view returns(string[] memory) {
+        return s_comment;
+    }
 }
